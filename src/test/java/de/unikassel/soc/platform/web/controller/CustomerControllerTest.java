@@ -27,6 +27,8 @@ class CustomerControllerTest {
 
     CustomerController customerController;
 
+    static final String BASE_PATH = "/api/v1/customer";
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -40,7 +42,7 @@ class CustomerControllerTest {
         CustomerDto customerDto = new CustomerDto(uuid, "Test", null);
         when(customerService.getCustomerById(uuid)).thenReturn(customerDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer/" + uuid))
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_PATH + "/" + uuid))
                 .andExpect(status().isOk());
     }
 
@@ -52,7 +54,7 @@ class CustomerControllerTest {
         UUID uuid = UUID.randomUUID();
         when(customerService.getCustomerById(uuid)).thenThrow(NoSuchElementException.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer/" + uuid))
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_PATH + uuid))
                 .andExpect(status().isNotFound());
     }
 
@@ -66,7 +68,7 @@ class CustomerControllerTest {
 
         when(customerService.getCustomersByName(name)).thenReturn(customerDtos);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer/?name="+name ))
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_PATH+"/").param("name", name))
                 .andExpect(status().isOk());
     }
 
