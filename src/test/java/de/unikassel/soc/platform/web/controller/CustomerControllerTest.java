@@ -54,7 +54,7 @@ class CustomerControllerTest {
         UUID uuid = UUID.randomUUID();
         when(customerService.getCustomerById(uuid)).thenThrow(NoSuchElementException.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(BASE_PATH + uuid))
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_PATH + "/" + uuid))
                 .andExpect(status().isNotFound());
     }
 
