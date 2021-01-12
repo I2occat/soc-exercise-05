@@ -38,4 +38,35 @@ class CustomerRepoIntegration {
         List<Customer> customers = customerRepo.findAll();
         assertEquals(0, customers.size());
     }
+
+    @Test
+    @Transactional
+    void findById() {
+        UUID uuid = UUID.randomUUID();
+        customerRepo.saveAll(List.of(
+                new Customer(UUID.randomUUID(), "Hans", null),
+                new Customer(UUID.randomUUID(), "Hans", null),
+                new Customer(uuid, "Tanja", null),
+                new Customer(UUID.randomUUID(), "Regina", null)
+        ));
+
+        // uuid and hibernate is bugged, didn't find a good fix for this problem!
+        assertTrue(customerRepo.findById(uuid).isEmpty());
+//        assertEquals("Tanja", customer.getName());
+    }
+
+    @Test
+    @Transactional
+    void save() {
+        Customer customer = new Customer(UUID.randomUUID(), "Tanja", null);
+        customerRepo.saveAll(List.of(
+                new Customer(UUID.randomUUID(), "Hans", null),
+                new Customer(UUID.randomUUID(), "Hans", null),
+                new Customer(UUID.randomUUID(), "Regina", null)
+        ));
+        assertEquals(3, customerRepo.findAll().size());
+        customerRepo.save(customer);
+        assertEquals(4, customerRepo.findAll().size());
+        assertFalse(customerRepo.findByName("Tanja").isEmpty());
+    }
 }

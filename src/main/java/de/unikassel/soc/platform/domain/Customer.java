@@ -2,6 +2,7 @@ package de.unikassel.soc.platform.domain;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,11 +16,9 @@ import java.util.UUID;
 @Builder
 public class Customer implements Serializable {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GeneratedValue( generator = "uuid2" )
+    @GenericGenerator( name = "uuid2", strategy = "uuid2" )
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
     private String name;
 
