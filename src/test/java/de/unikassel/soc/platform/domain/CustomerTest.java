@@ -19,8 +19,9 @@ class CustomerTest {
 
     @Test
     void getName() {
-        customer.setName("Test");
-        assertEquals("Test", customer.getName());
+        String name = "Test";
+        customer.setName(name);
+        assertEquals(name, customer.getName());
     }
 
     @Test
